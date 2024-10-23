@@ -1,8 +1,9 @@
-# DigitalMarket
+# Cryptocurrency-dashboard
+
 
 demo Link
 
-https://yasamanbarati.github.io/DigitalMarket/
+
 
 package manager
 
@@ -22,12 +23,9 @@ tools
     
     - Material Icon
     
-    - slick carousel
+    - 
     
  statement management 
  
     - Redux Toolkit 
     
-    - local storage 
-
-# Cryptocurrency-dashboard
