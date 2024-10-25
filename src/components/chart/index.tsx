@@ -6,8 +6,8 @@ import { Box, Button, Typography, useTheme } from "@mui/material";
 
 ChartJS.register(...registerables);
 interface ChartDataPoint {
-  x: number; 
-  y: number; 
+  x: number;
+  y: number;
 }
 
 const Chart = () => {
@@ -23,28 +23,29 @@ const Chart = () => {
   const [id, setId] = useState<string>("bitcoin");
   const [interval, setInterval] = useState<string>("daily");
   const [chartType, setChartType] = useState<string>("LineChart");
-  
+
   const theme = useTheme(); // Get the current theme
 
-  useEffect(() => {
-    const fetchChartData = async () => {
-      try {
-        const response = await fetch(
-          `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`
-        );
-        const data = await response.json();
-        setChartData(
-          data.prices.map((price: [number, number]) => ({
-            x: price[0],
-            y: parseFloat(price[1].toFixed(2)), // Ensure y is a number
-          }))
-        );
-      } catch (error) {
-        console.error("Error fetching chart data:", error);
-      }
-    };
+  const fetchChartData = async () => {
+    try {
+      const response = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`
+      );
+      const data = await response.json();
+      setChartData(
+        data.prices.map((price: [number, number]) => ({
+          x: price[0],
+          y: parseFloat(price[1].toFixed(2)), // Ensure y is a number
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchChartData();
+    setTimeout(fetchChartData, 60000);
   }, [days, id, currency, interval]);
 
   const handleDaysChange = (newDays: number, newInterval: string) => {
@@ -68,14 +69,27 @@ const Chart = () => {
           <Button
             key={day}
             variant="outlined"
-            onClick={() => handleDaysChange(day, day === 1 ? "hourly" : "daily")}
+            onClick={() =>
+              handleDaysChange(day, day === 1 ? "hourly" : "daily")
+            }
             sx={{
               borderColor: days === day ? "white" : "transparent",
-              color: days === day ? theme.palette.text.primary : theme.palette.text.secondary,
+              color:
+                days === day
+                  ? theme.palette.text.primary
+                  : theme.palette.text.secondary,
               backgroundColor: days === day ? "yellow" : "transparent",
             }}
           >
-            {day === 1 ? "1D" : day === 7 ? "1W" : day === 30 ? "1M" : day === 180 ? "6M" : "1Y"}
+            {day === 1
+              ? "1D"
+              : day === 7
+                ? "1W"
+                : day === 30
+                  ? "1M"
+                  : day === 180
+                    ? "6M"
+                    : "1Y"}
           </Button>
         ))}
       </Box>
