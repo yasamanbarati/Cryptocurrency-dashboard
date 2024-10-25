@@ -1,14 +1,15 @@
-import { Fragment } from 'react'
-import { CssBaseline } from '@mui/material'
-import { Provider } from 'react-redux'
-import { store } from 'setup/redux/store'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "scenes/pages/dashboard/page";
+import Markets from "scenes/pages/markets/page";
 
 export const App = () => {
   return (
-    <Fragment>
-      <Provider store={store}>
-          <CssBaseline />
-      </Provider>
-    </Fragment>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/markets" element={<Markets />} />
+      </Routes>
+    </Router>
+  );
+};
