@@ -5,17 +5,14 @@ import { CryptoContext } from "services/context/crypto-context";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 
 ChartJS.register(...registerables);
-
-// Define types for chart data
 interface ChartDataPoint {
-  x: number; // Timestamp
-  y: number; // Price
+  x: number; 
+  y: number; 
 }
 
 const Chart = () => {
   const context = useContext(CryptoContext);
 
-  // Ensure context is defined
   if (!context) {
     throw new Error("CryptoChart must be used within a CryptoProvider");
   }
