@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from "chart.js";
 import { CryptoContext } from "services/context/crypto-context";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 
 ChartJS.register(...registerables);
 
@@ -20,12 +20,14 @@ const Chart = () => {
     throw new Error("CryptoChart must be used within a CryptoProvider");
   }
 
-  const { currency, cryptoId } = context;
+  const { currency } = context;
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
   const [days, setDays] = useState<number>(2);
   const [id, setId] = useState<string>("bitcoin");
   const [interval, setInterval] = useState<string>("daily");
   const [chartType, setChartType] = useState<string>("LineChart");
+  
+  const theme = useTheme(); // Get the current theme
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -61,65 +63,24 @@ const Chart = () => {
       mt={3}
       flexDirection="column"
     >
-      <Typography variant="h6" color="black">
+      <Typography variant="h6" color={theme.palette.text.primary}>
         {currency.toUpperCase()}
       </Typography>
       <Box display="flex" gap={1} flexWrap="wrap" mt={1}>
-        <Button
-          variant="outlined"
-          onClick={() => handleDaysChange(1, "hourly")}
-          sx={{
-            borderColor: days === 1 ? "white" : "transparent",
-            color: days === 1 ? "black" : "black",
-            backgroundColor: days === 1 ? "yellow" : "transparent",
-          }}
-        >
-          1D
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => handleDaysChange(7, "daily")}
-          sx={{
-            borderColor: days === 7 ? "white" : "transparent",
-            color: days === 7 ? "black" : "black",
-            backgroundColor: days === 7 ? "yellow" : "transparent",
-          }}
-        >
-          1W
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => handleDaysChange(30, "daily")}
-          sx={{
-            borderColor: days === 30 ? "white" : "transparent",
-            color: days === 30 ? "black" : "black",
-            backgroundColor: days === 30 ? "yellow" : "transparent",
-          }}
-        >
-          1M
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => handleDaysChange(180, "monthly")}
-          sx={{
-            borderColor: days === 180 ? "white" : "transparent",
-            color: days === 180 ? "black" : "black",
-            backgroundColor: days === 180 ? "yellow" : "transparent",
-          }}
-        >
-          6M
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => handleDaysChange(365, "yearly")}
-          sx={{
-            borderColor: days === 365 ? "white" : "transparent",
-            color: days === 365 ? "black" : "black",
-            backgroundColor: days === 365 ? "yellow" : "transparent",
-          }}
-        >
-          1Y
-        </Button>
+        {[1, 7, 30, 180, 365].map((day) => (
+          <Button
+            key={day}
+            variant="outlined"
+            onClick={() => handleDaysChange(day, day === 1 ? "hourly" : "daily")}
+            sx={{
+              borderColor: days === day ? "white" : "transparent",
+              color: days === day ? theme.palette.text.primary : theme.palette.text.secondary,
+              backgroundColor: days === day ? "yellow" : "transparent",
+            }}
+          >
+            {day === 1 ? "1D" : day === 7 ? "1W" : day === 30 ? "1M" : day === 180 ? "6M" : "1Y"}
+          </Button>
+        ))}
       </Box>
 
       {chartType === "LineChart" ? (
@@ -155,12 +116,12 @@ const Chart = () => {
                     display: false,
                   },
                   ticks: {
-                    color: "black",
+                    color: theme.palette.text.primary,
                   },
                 },
                 y: {
                   ticks: {
-                    color: "black",
+                    color: theme.palette.text.primary,
                   },
                 },
               },
@@ -173,7 +134,7 @@ const Chart = () => {
                   display: true,
                   align: "end",
                   labels: {
-                    color: "black",
+                    color: theme.palette.text.primary,
                     pointStyleWidth: 15,
                     usePointStyle: true,
                     pointStyle: "circle",
@@ -219,12 +180,12 @@ const Chart = () => {
                     display: false,
                   },
                   ticks: {
-                    color: "black",
+                    color: theme.palette.text.primary,
                   },
                 },
                 y: {
                   ticks: {
-                    color: "black",
+                    color: theme.palette.text.primary,
                   },
                 },
               },
@@ -233,7 +194,7 @@ const Chart = () => {
                   display: true,
                   align: "end",
                   labels: {
-                    color: "black",
+                    color: theme.palette.text.primary,
                     pointStyleWidth: 15,
                     usePointStyle: true,
                     pointStyle: "circle",
