@@ -41,3 +41,8 @@ body {
 *{
   font-family: "Vazir"!important;
 }
+@media (max-width: 600px) {
+  .MuiDrawer-paper {
+    width: 60px;
+  }
+}
