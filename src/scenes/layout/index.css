@@ -1,0 +1,12 @@
+.MuiListItem-root span {
+  font-size: 1rem;
+  font-weight: 600 !important;
+}
+
+.MuiStack-root:first-child {
+  height: 60px !important;
+}
+.MuiStack-root img {
+  width: 120px;
+  object-fit: cover;
+}
